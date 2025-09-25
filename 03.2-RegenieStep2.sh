@@ -43,4 +43,3 @@ for chr in {1..22}; do  # 22
     --pThresh 0.01 \
     --pred ${step1}"""
 done
-
