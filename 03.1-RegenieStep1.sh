@@ -6,12 +6,11 @@ input=$2
 output=$3
 
 
-"""
-- Input, will found all `*derivation*` files in the folder
-- Output, will be a folder with the same name as the parents name of founded input file and with a step1 file inside to save the result
-- Note if step1 file is already existed, it will not run again
 
-"""
+# - Input, will found all `*derivation*` files in the folder
+# - Output, will be a folder with the same name as the parents name of founded input file and with a step1 file inside to save the result
+# - Note if step1 file is already existed, it will not run again
+
 
 founded_files=$(find ${input} -name "*derivation*")
 for file in ${founded_files}
@@ -28,8 +27,8 @@ do
         echo "Step1 file already existed, skip"
         continue
     else
-        step1_log_file=${output}/${traits_name}/step1.log
-        echo "Start running step1 for ${traits_name}"
+        step1_log_file=${step1_folder}/step1.log
+        echo "Start running step1 for ${traits_name} and saveing the log file to ${step1_log_file}"
         # run step1
         sbatch -J ${traits_name} -c ${threads} --mem=10G -o ${step1_log_file} \
             --wrap """
@@ -51,7 +50,7 @@ do
                 --bsize 1000 \
                 --lowmem \
                 --lowmem-prefix /hwmaster/xutingfeng/${traits_name} \
-                --out ${step1_folder}/${traits_name}/
+                --out ${step1_folder}/
                 """
                 
     fi
